@@ -1,10 +1,7 @@
 module Quizzer exposing (..)
 
 import Html exposing (..)
-
-
--- import Html.Attributes exposing (..)
-
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 
@@ -12,7 +9,8 @@ import Html.Events exposing (..)
 
 
 type Msg
-    = A1
+    = Infinitive
+    | A1
     | A2
     | B1
     | B2
@@ -38,8 +36,9 @@ verbs =
     ]
 
 
-type alias Windows =
-    { a1 : Bool
+type alias Answered =
+    { inf : Bool
+    , a1 : Bool
     , a2 : Bool
     , b1 : Bool
     , b2 : Bool
@@ -48,14 +47,14 @@ type alias Windows =
     }
 
 
-allWindowsClosed : Windows
-allWindowsClosed =
-    Windows False False False False False False
+noQuestionsAnswered : Answered
+noQuestionsAnswered =
+    Answered False False False False False False False
 
 
 type alias Model =
     { verb : Maybe Verb
-    , openWindows : Windows
+    , answeredQuestions : Answered
     , clicked : String
     }
 
@@ -63,7 +62,7 @@ type alias Model =
 initialModel : Model
 initialModel =
     { verb = List.head verbs
-    , openWindows = allWindowsClosed
+    , answeredQuestions = noQuestionsAnswered
     , clicked = ""
     }
 
@@ -76,7 +75,7 @@ view : Model -> Html Msg
 view model =
     case model.verb of
         Just aVerb ->
-            div []
+            div [ class "container" ]
                 [ viewInstructions
                 , viewVerb aVerb model
                 ]
@@ -88,21 +87,19 @@ view model =
 viewInstructions : Html Msg
 viewInstructions =
     div []
-        [ text "Click a question mark to reveal the answer. Click the answer to hide it." ]
+        [ text "Click the question marks (or the English phrase) to reveal an answer. Click the answer to hide it." ]
 
 
 viewVerb : Verb -> Model -> Html Msg
 viewVerb verb model =
     let
-        wins =
-            model.openWindows
+        answers =
+            model.answeredQuestions
     in
-        table []
+        table [ class "table" ]
             [ thead []
                 [ tr []
-                    [ th [] []
-                    , th [] [ text (bothLanguages verb) ]
-                    , th [] []
+                    [ th [ colspan 3 ] [ toggleAnswer Infinitive answers.inf verb.inEnglish verb.infinitive ]
                     ]
                 ]
             , tr []
@@ -112,37 +109,32 @@ viewVerb verb model =
                 ]
             , tr []
                 [ th [] [ text "First Person" ]
-                , td [] [ visibilityButton A1 wins.a1 verb.firstSingular ]
-                , td [] [ visibilityButton A2 wins.a2 verb.firstPlural ]
+                , td [] [ toggleAnswer A1 answers.a1 "?????" verb.firstSingular ]
+                , td [] [ toggleAnswer A2 answers.a2 "?????" verb.firstPlural ]
                 ]
             , tr []
                 [ th [] [ text "Second Person" ]
-                , td [] [ visibilityButton B1 wins.b1 verb.secondSingular ]
-                , td [] [ visibilityButton B2 wins.b2 verb.secondPlural ]
+                , td [] [ toggleAnswer B1 answers.b1 "?????" verb.secondSingular ]
+                , td [] [ toggleAnswer B2 answers.b2 "?????" verb.secondPlural ]
                 ]
             , tr []
                 [ th [] [ text "Third Person" ]
-                , td [] [ visibilityButton C1 wins.c1 verb.thirdSingular ]
-                , td [] [ visibilityButton C2 wins.c2 verb.thirdPlural ]
+                , td [] [ toggleAnswer C1 answers.c1 "?????" verb.thirdSingular ]
+                , td [] [ toggleAnswer C2 answers.c2 "?????" verb.thirdPlural ]
                 ]
             ]
 
 
-bothLanguages : Verb -> String
-bothLanguages verb =
-    verb.infinitive ++ " (" ++ verb.inEnglish ++ ")"
-
-
-visibilityButton : Msg -> Bool -> String -> Html Msg
-visibilityButton msg isVisible word =
+toggleAnswer : Msg -> Bool -> String -> String -> Html Msg
+toggleAnswer msg isVisible question answer =
     let
         displayedWord =
             case isVisible of
                 True ->
-                    word
+                    answer
 
                 False ->
-                    "?"
+                    question
     in
         span [ onClick msg ] [ text displayedWord ]
 
@@ -154,30 +146,33 @@ visibilityButton msg isVisible word =
 update : Msg -> Model -> Model
 update action model =
     let
-        windows =
-            model.openWindows
+        answers =
+            model.answeredQuestions
 
-        updatedWindows =
+        updatedQuestions =
             case action of
+                Infinitive ->
+                    { answers | inf = not answers.inf }
+
                 A1 ->
-                    { windows | a1 = not windows.a1 }
+                    { answers | a1 = not answers.a1 }
 
                 A2 ->
-                    { windows | a2 = not windows.a2 }
+                    { answers | a2 = not answers.a2 }
 
                 B1 ->
-                    { windows | b1 = not windows.b1 }
+                    { answers | b1 = not answers.b1 }
 
                 B2 ->
-                    { windows | b2 = not windows.b2 }
+                    { answers | b2 = not answers.b2 }
 
                 C1 ->
-                    { windows | c1 = not windows.c1 }
+                    { answers | c1 = not answers.c1 }
 
                 C2 ->
-                    { windows | c2 = not windows.c2 }
+                    { answers | c2 = not answers.c2 }
     in
-        { model | openWindows = updatedWindows }
+        { model | answeredQuestions = updatedQuestions }
 
 
 main : Program Never Model Msg

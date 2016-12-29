@@ -10,7 +10,8 @@ Open index.html in your browser to try it out, clicking a question mark to revea
 
 - DONE Display the 6 standard conjugations in the present tense for "tener" (to have).
 - DONE Toggle the answers with a click
-- Add Bootstrap styling
+- DONE Add Bootstrap styling
+- DONE Toggle English/Spanish for the infinitive form
 - Add the other 9 most-common Spanish verbs (ser, estar, ir, haber, hacer, querer, deber, poder, decir)
 - Choose a random verb when the page loads
 - Add a "different verb" button
