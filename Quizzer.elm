@@ -3,6 +3,8 @@ module Quizzer exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Random exposing (int)
+import Array
 
 
 -- MODEL
@@ -16,6 +18,8 @@ type Msg
     | B2
     | C1
     | C2
+    | PickNewWord
+    | NewWord Int
 
 
 type alias Verb =
@@ -33,6 +37,16 @@ type alias Verb =
 verbs : List Verb
 verbs =
     [ Verb "tener" "to have" "tengo" "tienes" "tiene" "tenemos" "tenéis" "tienen"
+    , Verb "ser" "to be (permanent)" "soy" "eres" "es" "somos" "sois" "son"
+    , Verb "estar" "to be (temporary)" "estoy" "estás" "está" "estamos" "estáis" "están"
+    , Verb "ir" "to go" "voy" "vas" "va" "vamos" "vais" "van"
+    , Verb "haber" "to have" "he" "has" "ha, hay" "hemos" "habéis" "han"
+    , Verb "hacer" "to do/make" "hago" "haces" "hace" "hacemos" "hacéis" "hacen"
+    , Verb "querer" "to want" "quiero" "quieres" "quiere" "queremos" "queréis" "quieren"
+    , Verb "deber" "to owe/must" "debo" "debes" "debe" "debemos" "debéis" "deben"
+    , Verb "poder" "to be able to" "puedo" "puedes" "puede" "podemos" "podéis" "pueden"
+    , Verb "decir" "to say/tell" "digo" "dices" "dice" "decimos" "decís" "dicen"
+    , Verb "hablar" "to speak/talk" "hablo" "hablas" "habla" "hablamos" "habláis" "hablan"
     ]
 
 
@@ -55,7 +69,6 @@ noQuestionsAnswered =
 type alias Model =
     { verb : Maybe Verb
     , answeredQuestions : Answered
-    , clicked : String
     }
 
 
@@ -63,7 +76,6 @@ initialModel : Model
 initialModel =
     { verb = List.head verbs
     , answeredQuestions = noQuestionsAnswered
-    , clicked = ""
     }
 
 
@@ -78,6 +90,7 @@ view model =
             div [ class "container" ]
                 [ viewInstructions
                 , viewVerb aVerb model
+                , text (toString model)
                 ]
 
         Nothing ->
@@ -99,7 +112,8 @@ viewVerb verb model =
         table [ class "table" ]
             [ thead []
                 [ tr []
-                    [ th [ colspan 3 ] [ toggleAnswer Infinitive answers.inf verb.inEnglish verb.infinitive ]
+                    [ th [ colspan 2 ] [ toggleAnswer Infinitive answers.inf verb.inEnglish verb.infinitive ]
+                    , th [] [ button [ onClick PickNewWord ] [ text "Practice new word" ] ]
                     ]
                 ]
             , tr []
@@ -143,7 +157,7 @@ toggleAnswer msg isVisible question answer =
 -- UPDATE
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update action model =
     let
         answers =
@@ -171,14 +185,44 @@ update action model =
 
                 C2 ->
                     { answers | c2 = not answers.c2 }
+
+                _ ->
+                    answers
     in
-        { model | answeredQuestions = updatedQuestions }
+        case action of
+            NewWord idx ->
+                ( { model | verb = (selectWord idx) }, Cmd.none )
+
+            PickNewWord ->
+                ( model, randomWord )
+
+            _ ->
+                ( { model | answeredQuestions = updatedQuestions }, Cmd.none )
+
+
+selectWord : Int -> Maybe Verb
+selectWord idx =
+    Array.get (idx - 1) (Array.fromList verbs)
+
+
+
+-- COMMANDS
+
+
+randomWord : Cmd Msg
+randomWord =
+    Random.generate NewWord (Random.int 1 (List.length verbs))
+
+
+
+-- MAIN
 
 
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram
-        { model = initialModel
+    Html.program
+        { init = ( initialModel, randomWord )
         , update = update
         , view = view
+        , subscriptions = (\n -> Sub.none)
         }

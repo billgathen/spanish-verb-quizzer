@@ -12,8 +12,8 @@ Open index.html in your browser to try it out, clicking a question mark to revea
 - DONE Toggle the answers with a click
 - DONE Add Bootstrap styling
 - DONE Toggle English/Spanish for the infinitive form
-- Add the other 9 most-common Spanish verbs (ser, estar, ir, haber, hacer, querer, deber, poder, decir)
-- Choose a random verb when the page loads
-- Add a "different verb" button
+- DONE Add more of the most-common Spanish verbs (ser, estar, ir, haber, hacer, querer, deber, poder, decir, hablar)
+- DONE Choose a random verb when the page loads
+- DONE Add a "Practice new word" button
 - Create a github.io page for the app
 - Confirm it works well on mobile
