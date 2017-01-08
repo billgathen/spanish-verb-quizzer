@@ -191,7 +191,7 @@ update action model =
     in
         case action of
             NewWord idx ->
-                ( { model | verb = (selectWord idx) }, Cmd.none )
+                ( { model | verb = (selectWord idx), answeredQuestions = noQuestionsAnswered }, Cmd.none )
 
             PickNewWord ->
                 ( model, randomWord )

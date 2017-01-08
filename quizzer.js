@@ -9202,7 +9202,8 @@ var _billgathen$spanish_verb_quizzer$Quizzer$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							verb: _billgathen$spanish_verb_quizzer$Quizzer$selectWord(_p2._0)
+							verb: _billgathen$spanish_verb_quizzer$Quizzer$selectWord(_p2._0),
+							answeredQuestions: _billgathen$spanish_verb_quizzer$Quizzer$noQuestionsAnswered
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};

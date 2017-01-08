@@ -15,5 +15,6 @@ Open index.html in your browser to try it out, clicking a question mark to revea
 - DONE Add more of the most-common Spanish verbs (ser, estar, ir, haber, hacer, querer, deber, poder, decir, hablar)
 - DONE Choose a random verb when the page loads
 - DONE Add a "Practice new word" button
+- DONE When switching words, hide all conjugations
 - Create a github.io page for the app
 - Confirm it works well on mobile
