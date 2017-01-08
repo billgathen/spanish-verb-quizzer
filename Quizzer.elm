@@ -88,19 +88,25 @@ view model =
     case model.verb of
         Just aVerb ->
             div [ class "container" ]
-                [ viewInstructions
+                [ viewHeader
                 , viewVerb aVerb model
-                , text (toString model)
+                , viewInstructions
                 ]
 
         Nothing ->
             text "Not found"
 
 
+viewHeader : Html Msg
+viewHeader =
+    div [ class "text-center" ]
+        [ text "Spanish Verb Quizzer" ]
+
+
 viewInstructions : Html Msg
 viewInstructions =
-    div []
-        [ text "Click the question marks (or the English phrase) to reveal an answer. Click the answer to hide it." ]
+    div [ class "text-center" ]
+        [ text "Click the question marks (or the English phrase) to reveal the Spanish version. Click again to hide it." ]
 
 
 viewVerb : Verb -> Model -> Html Msg
@@ -112,8 +118,8 @@ viewVerb verb model =
         table [ class "table" ]
             [ thead []
                 [ tr []
-                    [ th [ colspan 2 ] [ toggleAnswer Infinitive answers.inf verb.inEnglish verb.infinitive ]
-                    , th [] [ button [ onClick PickNewWord ] [ text "Practice new word" ] ]
+                    [ th [ colspan 3, class "text-center" ]
+                        [ h1 [] [ toggleAnswer Infinitive answers.inf verb.inEnglish verb.infinitive ] ]
                     ]
                 ]
             , tr []
@@ -135,6 +141,9 @@ viewVerb verb model =
                 [ th [] [ text "Third Person" ]
                 , td [] [ toggleAnswer C1 answers.c1 "?????" verb.thirdSingular ]
                 , td [] [ toggleAnswer C2 answers.c2 "?????" verb.thirdPlural ]
+                ]
+            , tr []
+                [ th [ colspan 3, class "text-center" ] [ button [ class "btn", onClick PickNewWord ] [ text "Practice new word" ] ]
                 ]
             ]
 

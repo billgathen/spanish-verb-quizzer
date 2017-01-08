@@ -9072,10 +9072,26 @@ var _billgathen$spanish_verb_quizzer$Quizzer$toggleAnswer = F4(
 	});
 var _billgathen$spanish_verb_quizzer$Quizzer$viewInstructions = A2(
 	_elm_lang$html$Html$div,
-	{ctor: '[]'},
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html$text('Click the question marks (or the English phrase) to reveal an answer. Click the answer to hide it.'),
+		_0: _elm_lang$html$Html_Attributes$class('text-center'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Click the question marks (or the English phrase) to reveal the Spanish version. Click again to hide it.'),
+		_1: {ctor: '[]'}
+	});
+var _billgathen$spanish_verb_quizzer$Quizzer$viewHeader = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('text-center'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Spanish Verb Quizzer'),
 		_1: {ctor: '[]'}
 	});
 var _billgathen$spanish_verb_quizzer$Quizzer$Verb = F8(
@@ -9253,37 +9269,26 @@ var _billgathen$spanish_verb_quizzer$Quizzer$viewVerb = F2(
 									_elm_lang$html$Html$th,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$colspan(2),
-										_1: {ctor: '[]'}
+										_0: _elm_lang$html$Html_Attributes$colspan(3),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('text-center'),
+											_1: {ctor: '[]'}
+										}
 									},
 									{
 										ctor: '::',
-										_0: A4(_billgathen$spanish_verb_quizzer$Quizzer$toggleAnswer, _billgathen$spanish_verb_quizzer$Quizzer$Infinitive, answers.inf, verb.inEnglish, verb.infinitive),
+										_0: A2(
+											_elm_lang$html$Html$h1,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A4(_billgathen$spanish_verb_quizzer$Quizzer$toggleAnswer, _billgathen$spanish_verb_quizzer$Quizzer$Infinitive, answers.inf, verb.inEnglish, verb.infinitive),
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$th,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$button,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_billgathen$spanish_verb_quizzer$Quizzer$PickNewWord),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('Practice new word'),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
 					}),
@@ -9439,7 +9444,48 @@ var _billgathen$spanish_verb_quizzer$Quizzer$viewVerb = F2(
 											}
 										}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$tr,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$th,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$colspan(3),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('text-center'),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('btn'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(_billgathen$spanish_verb_quizzer$Quizzer$PickNewWord),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Practice new word'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -9458,14 +9504,13 @@ var _billgathen$spanish_verb_quizzer$Quizzer$view = function (model) {
 			},
 			{
 				ctor: '::',
-				_0: _billgathen$spanish_verb_quizzer$Quizzer$viewInstructions,
+				_0: _billgathen$spanish_verb_quizzer$Quizzer$viewHeader,
 				_1: {
 					ctor: '::',
 					_0: A2(_billgathen$spanish_verb_quizzer$Quizzer$viewVerb, _p3._0, model),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(model)),
+						_0: _billgathen$spanish_verb_quizzer$Quizzer$viewInstructions,
 						_1: {ctor: '[]'}
 					}
 				}
